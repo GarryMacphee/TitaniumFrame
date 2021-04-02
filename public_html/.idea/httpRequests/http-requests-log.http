@@ -1,0 +1,28 @@
+POST http://titaniumcomms.dev.co.uk/VideoUpload/upload.php?desc=Description of the image
+Accept: */*
+Cache-Control: no-cache
+
+--null
+
+
+< /home/anonymous/Desktop/Images/tech-sparkle.jpg
+--null--
+
+<> 2020-06-06T012658.200.html
+
+###
+
+POST http://titaniumcomms.dev.co.uk/VideoUpload/upload.php?desc=Description of the image
+Accept: */*
+Cache-Control: no-cache
+
+--null
+
+
+< /home/anonymous/Desktop/Images/tech-sparkle.jpg
+--null--
+
+<> 2020-06-06T012356.200.html
+
+###
+

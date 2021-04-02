@@ -1,0 +1,46 @@
+################################################################################################################
+#
+# Titanium Frame
+#
+################################################################################################################
+
+#mod_rewrite allows server-side URL manipulation
+# (create friendly url's)
+# reg expressions : \w referring to [A-Za-z0-9]
+#                   \d referring to [0-9]
+#
+#The rule, eg. url = shareposts/public/pages,
+# we change this to user.php?id=joe
+#---------
+#RewriteRule ^user/(\w+)/?$ user.php?id=$1
+#
+#
+#Pattern to match
+#-----------------
+#^          Beginning of Input
+#user/      The REQUEST_URI starts with the literal string "user/"
+#(\w+)      Capture any word characters, put in $1
+#/?         Optional trailing slash "/"
+#$          End of Input
+# 
+#Substitute with:
+#-----------------
+#
+#user.php?id=   Literal string to use.
+#$1             The first (capture) noted above
+#
+#
+#
+#
+#
+<IfModule mod_rewrite.c>
+    Options +FollowSymLinks
+    RewriteEngine On
+    RewriteBase /
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule  ^(.+)$ index.php?url=$1 [QSA,L]
+
+    RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s{.*}/index\.php [NC]
+    RewriteRule  ^ %1 [R=301,L]
+</IfModule>
