@@ -29,10 +29,7 @@
                                 <h5 class="card-title">What I do</h5>
                                 <p class="card-text">Android developer</p>
                                 <p class="card-text">
-                                    I develop and maintain Android applications by day. In my spare time I work on my
-                                    Android game called Sypho.
-
-                                    I also build websites and enjoy trying out new technologies.
+                                    
                                 </p>
                                 <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small>
                                 </p>
