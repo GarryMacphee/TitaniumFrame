@@ -5,9 +5,7 @@
  */
 class Users extends Controller
     {
-
-    //public $form_key;
-
+    
     //public $userModel;
     //constructor
     public function __construct()
@@ -26,7 +24,6 @@ class Users extends Controller
         {
             if ($_SERVER['REQUEST_METHOD'] == 'POST')
                 {
-                    //only use these to check values match after sanitized
                     $pre_sanitized_email = $_POST['email'];
                     $pre_sanitized_password = $_POST['password'];
 
@@ -109,7 +106,6 @@ class Users extends Controller
                             }
                         }
 
-                    //errors must be empty to continue
                     if (empty($data['name_err']) && empty($data['email_err']) && empty($data['password_err']) && empty($data['confirm_password_err']))
                         {
                             //input has been validated
@@ -148,7 +144,6 @@ class Users extends Controller
                 }
             else
                 {
-                    //Init data
                     $data = [
                         'name' => '',
                         'email' => '',
@@ -174,19 +169,15 @@ class Users extends Controller
      */
     public function login()
         {
-            //clear previous captcha data from the session
             if (!empty($_SESSION['recaptcha_success']))
                 {
                     unset($_SESSION['recaptcha_success']);
                 }
 
-            //check for POST
             if ($_SERVER['REQUEST_METHOD'] == 'POST')
                 {
-                    //sanitise user input from POST
                     $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-                    //process the form
                     $data = [
                         'email'                     => trim($_POST['email']),
                         'password'                  => trim($_POST['password']),
@@ -199,7 +190,6 @@ class Users extends Controller
                         'csrf'                      => $this->keyMaster->outputCsrfToken('login_form')
                     ];
 
-                    //validate recaptcha
                     if ($data['recaptcha-response'])
                         {
                             require_once('../app/helpers/Recaptcha.php');
@@ -221,13 +211,11 @@ class Users extends Controller
                             $data['recaptcha_err'] = 'Please complete the recaptcha to continue';
                         }
 
-                    //validate email
-                    if (empty($data['email'])) //|| !filter_input (INPUT_POST, $data['email'], FILTER_VALIDATE_EMAIL))
+                    if (empty($data['email']))
                         {
                             $data['email_err'] = 'Please enter a valid email';
                         }
 
-                    //validate password
                     if (empty($data['password']))
                         {
                             $data['password_err'] = 'Please enter password';
@@ -237,60 +225,39 @@ class Users extends Controller
                             $data['password_err'] = 'Password must be between 6 and 24 characters';
                         }
 
-                    //check the database for users email
                     if (!$this->userModel->findUserByEmail($data['email']))
                         {
                             $data['email_err'] = 'No user found';
                         }
 
-                    //errors must be empty to continue
                     if (empty($data['email_err']) AND empty($data['password_err']) AND empty($data['recaptcha_err']))
                         {
-                            //clean name
                             $data['email'] = strip_tags($data['email']);
                             $data['email'] = htmlentities($data['email'], ENT_QUOTES);
 
-                            //clean password
                             $data['password'] = strip_tags($data['password']);
                             $data['password'] = htmlentities($data['password'], ENT_QUOTES);
 
-                            //check and set logged in user, login() here is in model class
                             $loggedInUser = $this->userModel->login($data['email'], $data['password']);
 
                             if ($loggedInUser)
                                 {
-                                    //create session
                                     $this->createUserSession($loggedInUser);
-
-                                    /* $log_details    = [     
-                                      'user_id'  =>  $loggedInUser->id,      //userId
-                                      'date'     =>  date('Y-m-d H:i:s'),    //current date
-                                      'type'     =>  1,                      //1 => success, chage this to const.
-                                      'message'  =>  'Successful login'      //message to log
-                                      ];
-
-                                     //log the user sign in action
-                                     $this->userModel->logUserAction($log_details); */
-                                    //log the user sign in action
                                     $this->userModel->logUserAction($this->getLogTemplate($_SESSION['user_id'], 'Successful login', 1));
                                 }
                             else
                                 {
-                                    //return with login error
                                     $data['password_err'] = 'Password not recognised';
                                     $this->view('users/login', $data);
                                 }
                         }
                     else
                         {
-                            //return with general error messages
                             $this->view('users/login', $data);
                         }
                 }
             else
                 {
-                    //Init data, this will be called on the first run
-                    //before user data has been entered
                     $data = [
                         'email' => '',
                         'password' => '',
@@ -312,14 +279,12 @@ class Users extends Controller
         {
             if (isLoggedIn())
                 {
-                    //log the user sign in action
                     $this->userModel->logUserAction($this->getLogTemplate($_SESSION['user_id'], 'Successful logout', 1));
                 }
 
             unset($_SESSION['user_id']);
             unset($_SESSION['user_email']);
             unset($_SESSION['user_name']);
-            // unset($_SESSION['sess_key']);
             unset($_SESSION['start']);
             unset($_SESSION['form_key']);
 
@@ -334,8 +299,6 @@ class Users extends Controller
      */
     public function createUserSession($user)
         {
-            //never let session user id = null, worst case it is 0
-            // then we return them to the login screen
             $_SESSION['user_id'] = (isset($user->id) === true) ? (int) $user->id : 0;
             $_SESSION['user_email'] = $user->users_email;
             $_SESSION['user_name'] = $user->users_name;
@@ -343,8 +306,6 @@ class Users extends Controller
             $_SESSION['start'] = date("Y-m-d H:i:s");
             $_SESSION['user_ip'] =  isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '0.0.0.0';
             
-
-            //if user id is 0, something went wrong, send them back to login screen
             $_SESSION['user_id'] > 0 ? redirect('dashboard') : redirect('users/login');
             
             if ($_SESSION['user_id'] > 0)
@@ -406,10 +367,7 @@ class Users extends Controller
                         {
                             $data['response'] = $captcha->verify();
                         }
-                    else
-                        {
-
-                        }
+                   
                 }
             else
                 {
