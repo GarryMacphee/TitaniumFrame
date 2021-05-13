@@ -19,13 +19,11 @@ class Database
 
     public function __construct()
         {
-             //('The class "', __CLASS__,'" has been loaded <br />');
-            //set dsn - data source name
+         
             $dsn = 'mysql:host='.$this->host.';dbname='.$this->dbname.';charset=utf8mb4';
-
             $options = array(
-                            PDO::ATTR_PERSISTENT    => true,
-                            PDO::ATTR_ERRMODE       => PDO::ERRMODE_EXCEPTION
+                    PDO::ATTR_PERSISTENT    => true,
+                    PDO::ATTR_ERRMODE       => PDO::ERRMODE_EXCEPTION
             );
 
             try
@@ -40,14 +38,13 @@ class Database
                 }
         }
 
-    //Prepare statement with query
+
     public function query($sql)
         {
             $this->stmt = $this->db_master->prepare($sql);
         }
-
         
-    // call this after we prepare our SQL statements
+
     public function bind($param, $value, $type = null)
         {
             if (is_null($type))
@@ -71,19 +68,16 @@ class Database
                         }
             }
             
-            //bind value, stmt is prepared sql query
             $this->stmt->bindValue($param, $value, $type);
         }
 
         
-    //Execute prepared statement
     public function execute()
         {
             return $this->stmt->execute();
         }
 
         
-    //Get result set of array of objects
     public function resultSet()
         {
             $this->execute();
@@ -91,7 +85,6 @@ class Database
         }
 
         
-    //single row as an object
     public function single()
         {
             $this->execute();
@@ -99,7 +92,6 @@ class Database
         }
 
         
-    //get the row count
     public function getRowCount()
         {
             return $this->stmt->rowCount();
