@@ -4,8 +4,6 @@
  * Base Controller, all other Controllers extend this class.
  * loads the models and views
  */
-
-
 class Controller
     {
 
@@ -16,7 +14,6 @@ class Controller
     public $uploadModel;
     public $dashboardModel;
 
-    //load model
     public function model ($model)
         {
             if (!is_object ($this->keyMaster))
@@ -28,7 +25,6 @@ class Controller
             return new $model();
         }
 
-    //Load the view
     public function view ($view, $data = [])
         {
             $filename = '../app/views/'.$view.'.php';
@@ -45,7 +41,6 @@ class Controller
         }
         
         
-    //Load the view
     public function chatView ($view, $data = [])
         {
              $filename = '../app/views/'.$view.'.php';
