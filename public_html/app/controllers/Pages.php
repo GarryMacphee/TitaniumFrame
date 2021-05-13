@@ -7,13 +7,9 @@
  */
 class Pages extends Controller
     {
-        //constructor 
         public function __construct()
             {
-                //printf('The class "', __CLASS__,'" has been loaded <br />');
-                // echo '<br><br /> Pages class loaded - constructor <br />';
-                //calls the model() method in the super class
-                // $this->postModel = $this->model('Post');
+            
             }
 
         /**
@@ -21,12 +17,10 @@ class Pages extends Controller
          */
         public function index()
             {
-                // data array we pass to the view
                 $data = ['title'        => 'Garry Macphee',
                         'description'   => 'Garry Macphee\'s site '
                 ];
 
-                //pass data into our index page via the Controller view method
                 $this->view('pages/index', $data);
             }
 
@@ -35,7 +29,6 @@ class Pages extends Controller
          */
         public function about()
             {
-                // data array we pass to the view
                 $data = [
                     'title'         => 'About page',
                     'description'   => 'A description of the About page'
