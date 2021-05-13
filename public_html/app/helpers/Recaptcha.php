@@ -6,9 +6,9 @@
  */
 class Recaptcha
     {
-        public $resp_token;         //captcha result token
-        public $verify_host;        //was the captcha completed on our site
-        public $response;           //response from sending token
+        public $resp_token;       
+        public $verify_host;      
+        public $response;          
         public $error_codes = [];
         
         
