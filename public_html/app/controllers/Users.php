@@ -108,11 +108,7 @@ class Users extends Controller
 
                     if (empty($data['name_err']) && empty($data['email_err']) && empty($data['password_err']) && empty($data['confirm_password_err']))
                         {
-                            //input has been validated
-                            $options = [
-                                'cost' => 12
-                            ];
-
+                            
                             //clean name
                             $data['name'] = strip_tags($data['name']);
                             $data['name'] = htmlentities($data['name'], ENT_QUOTES);
@@ -336,9 +332,9 @@ class Users extends Controller
         {
             $log_details = [
                         'user_id'   => $userId, //userId
-                        'date'      => date('Y-m-d H:i:s'),     //current date
-                        'type'      => $type,                   //1 => success, chage this to const.
-                        'message'   => $message,                //message to log
+                        'date'      => date('Y-m-d H:i:s'),     
+                        'type'      => $type,                
+                        'message'   => $message,          
                         'ip_addr'   => $ip_addr
             ];
 
@@ -376,5 +372,4 @@ class Users extends Controller
 
             return $data;
         }
-
     }
